@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: c3techie-test-app_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      # Add any environment variables your app needs below
+      # - DATABASE_URL=your_database_url
+      # - API_KEY=your_api_key
+    restart: always
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
